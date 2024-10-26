@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Восстановление пароля</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/TattooPassStyle.css') }}">
+</head>
+<body>
+	<div class="wrapper">
+			<div class="content">
+				<div class="columns2">
+					<div class='container'>
+						<div class="columns__row">
+							<div class="columns__column">
+								<div class="columns__item item">
+									<div class="item__row">
+										<div class="item__body">
+											<div class="item__title">Восстановление пароля</div>
+											<form method="post">
+												<div class="input-group">
+													<label for="mail">Почта</label>
+													<input type="text" name="mail" placeholder="Введите почту" required>
+												</div>
+												<button type="submit" class="btn">Отправить запрос</button>
+												<div class="input-group">
+													<label for="code">Код отправленный на почту</label>
+													<input type="code" name="code" placeholder="Введите код" required>
+												</div>
+													<button type="submit" class="btn">Восстановить пароль</button>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="columns__column">
+								<div class="columns__item item">
+									<div class="item__row">
+										<div class="item__body">
+											<div class="item__title">~ info ~</div>
+											<div class="item__text">Забыли пароль? Для восстановления пароля, укажите вашу почту для сброса данных.</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<footer class="footer">
+				<div class='container'>
+					<div class="footer__row">
+						<div class="footer__text">Tattoo Design 2024</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</body>
+</html>

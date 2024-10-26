@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Личный кабинет</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/TattooLKstyle.css') }}">
+</head>
+<body>
+	<div class="wrapper">
+			<div class="content">
+				<div class="columns2">
+					<div class='container'>
+						<div class="columns__row">
+							<div class="columns__column">
+								<div class="columns__item item">
+									<div class="item__row">
+										<div class="item__body">
+											<form method="post">
+												<div class="item__title">Вход в личный кабинет</div>
+												<div class="input-group">
+													<label for="login">Логин</label>
+													<input type="text" name="login" placeholder="Введите логин" required>
+												</div>
+												<div class="input-group">
+													<label for="password">Пароль</label>
+													<input type="password" name="password" placeholder="Введите пароль" required>
+												</div>
+													<button type="submit" class="btn">Войти</button>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="columns__column">
+								<div class="columns__item item">
+									<div class="item__row">
+										<div class="item__body">
+											<div class="item__title">~ info ~</div>
+											<div class="item__text">Для входа в личный кабинет укажите свои данные.</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="columns__column">
+								<div class="columns__item item">
+									<div class="item__row">
+										<div class="item__body">
+											<a href="{{ url_for('passw') }}"><button class="btn forgot-password"><div class="head_menu">Забыли пароль?</div></button></a>
+											<a href="{{ url_for('register') }}"><button type="button" class="btn register"><div class="head_menu">Регистрация</div></button></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<footer class="footer">
+				<div class='container'>
+					<div class="footer__row">
+						<div class="footer__text">Tattoo Design 2024</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</body>
+</html>
