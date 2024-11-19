@@ -7,8 +7,13 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(20), unique=True)
     password = db.Column(db.String(32))
-    mail = db.Column(db.String(64), unique=True)
+    email = db.Column(db.String(64), unique=True)
+    is_confirm = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class EmailConfirm(db.Model):
+    login = db.Column(db.String(20), primary_key=True)
+    url = db.Column(db.String(32), unique=True)
 
 @manager.user_loader
 def load_user(user_id):
