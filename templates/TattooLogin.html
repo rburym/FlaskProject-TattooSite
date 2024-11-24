@@ -5,6 +5,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Личный кабинет</title>
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/TattooLoginstyle.css') }}">
+	{{ toastr.include_jquery() }}
+	{{ toastr.include_toastr_css() }}
+	{{ toastr.message() }}
 </head>
 <body>
 	<div class="wrapper">
@@ -64,5 +67,6 @@
 				</div>
 			</footer>
 		</div>
+	{{ toastr.include_toastr_js() }}
 	</body>
 </html>

@@ -1,5 +1,5 @@
 from http.client import responses
-from flask import render_template, request, redirect, url_for, abort
+from flask import render_template, request, redirect, url_for, abort, flash
 from flask_login import login_required, login_user, logout_user
 from app import app, db
 from models import User, EmailConfirm
@@ -10,6 +10,8 @@ from error import *
 
 @app.route('/')
 def index():
+    flash("Message", 'Custom Title')
+    flash({'title': "Авторизация", 'message': "Успешная авторизация"}, 'success')
     return render_template('Tattoomain.html')
 
 
@@ -42,7 +44,6 @@ def register():
             email_confirm = EmailConfirm(login=login, url=url)
             db.session.add(email_confirm)
             db.session.commit()
-
             send_email(
                 f'Подтвердите регистрацию: http://127.0.0.1:5000{url_for('email_confirm', url=url)}',
                 email,
@@ -61,6 +62,8 @@ def login():
         if user and user.is_confirm:
             print(user.login, user.password, user.created_at)
             login_user(user, remember = True)
+            flash("Message", 'Custom Title')
+            flash({'title': "Авторизация", 'message': "Успешная авторизация"}, 'success')
             return redirect(url_for('personal_cab'))
         elif user.login == 'admin':
             abort(403)
@@ -97,6 +100,10 @@ def passw():
 @app.route('/gigachat')
 def gigachat():
     return render_template('gigachatpage.html')
+
+@app.route('/tattoopay')
+def tattoopay():
+    return render_template('TattooPay.html')
 
 
 @app.route('/perscab')
