@@ -5,6 +5,7 @@ from email.mime.text import MIMEText
 EMAIL_FROM = os.getenv('EMAIL')
 EMAIL_PAS = os.getenv('EPASS')
 
+
 def get_msg(to: str, subject: str):
     msg = MIMEMultipart()
     msg['From'] = EMAIL_FROM

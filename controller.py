@@ -2,16 +2,18 @@ from http.client import responses
 from flask import render_template, request, redirect, url_for, abort, flash
 from flask_login import login_required, login_user, logout_user
 from app import app, db
+from business_logic.chat import chatrequest
+from business_logic.billing import payment
 from models import User, EmailConfirm
 import random
 import string
 from  mail import send_email
 from error import *
 
+
+
 @app.route('/')
 def index():
-    flash("Message", 'Custom Title')
-    flash({'title': "Авторизация", 'message': "Успешная авторизация"}, 'success')
     return render_template('Tattoomain.html')
 
 
@@ -34,7 +36,7 @@ def register():
         login = request.form.get('login')
         password = request.form.get('password')
         print(email, login, password)
-        if 4 < len(email) < 32 and 4 < len(login) < 32 and 4 < len(password) < 64:
+        if 4 < len(email) < 32 and 4 < len(login) < 32 and 4 < len(password) < 32:
             print('Введен корректный пароль.')
             user = User(email=email, login=login, password=password)
             db.session.add(user)
@@ -48,7 +50,6 @@ def register():
                 f'Подтвердите регистрацию: http://127.0.0.1:5000{url_for('email_confirm', url=url)}',
                 email,
                 'Подтверждение регистрации')
-
             return redirect(url_for('index'))
     return render_template('Tattooreg.html')
 
@@ -62,18 +63,14 @@ def login():
         if user and user.is_confirm:
             print(user.login, user.password, user.created_at)
             login_user(user, remember = True)
-            flash("Message", 'Custom Title')
             flash({'title': "Авторизация", 'message': "Успешная авторизация"}, 'success')
             return redirect(url_for('personal_cab'))
-        elif user.login == 'admin':
-            abort(403)
         else:
             return redirect(url_for('register'))
     return render_template('TattooLogin.html')
 
 
 @app.route('/about')
-# @login_required
 def about():
     return render_template('Tattooabout.html')
 
@@ -97,12 +94,30 @@ def passw():
     return render_template('TattooPass.html')
 
 
-@app.route('/gigachat')
-def gigachat():
-    return render_template('gigachatpage.html')
+@app.route('/chatpage', methods=['GET', 'POST'])
+def chatpage():
+    if request.method == 'POST':
+        inprequest = request.form.get('inputrequest')
+        print(inprequest)
+        chatrequest(inprequest)
+        print(chatrequest(inprequest))
+    return render_template('chatpage.html')
 
-@app.route('/tattoopay')
+@app.route('/tattoopay', methods=['GET', 'POST'])
 def tattoopay():
+    '''
+    Также проверка что введенная сумма является числом
+    :return:
+    '''
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+        print(amount)
+        if amount and amount.isdigit():
+            payment(amount)
+            print(payment(amount))
+        else:
+            flash({'title': "Ошибка", 'message': "Введено нечисловое значение!"}, 'error')
+            return render_template('TattooPay.html')
     return render_template('TattooPay.html')
 
 
