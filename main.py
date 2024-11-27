@@ -1,3 +1,7 @@
+"""
+Модуль запуска.
+"""
+
 from controller import app
 from mail import send_email
 

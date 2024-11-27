@@ -1,16 +1,17 @@
-from business_logic.crystalpay_sdk import *
-import os
+"""
+Модуль для работы с API CrystalPay, использования кассы.
+"""
 
-BALogin = os.getenv('BALogin')
-BASecret = os.getenv('BASecret')
-BSalt = os.getenv('BSalt')
+from business_logic.crystalpay_sdk import *
+from config import BALogin, BASecret, BSalt
 
 crystalpayAPI = CrystalPAY(BALogin, BASecret, BSalt)
 
-# print(crystalpayAPI.Me.getinfo())
-# # print(crystalpayAPI.Balance.getinfo(hide_empty=False))
-# print(crystalpayAPI.Invoice.create(100, InvoiceType.purchase, 5, description="TESTPayment"))
-# print(crystalpayAPI.Invoice.create(100, InvoiceType.purchase, 5, description="TESTPayment").get('url'))
 
-def payment(amount):
+def payment(amount: int):
+    """
+    Функция создает ссылку на оплату
+    :param amount: int (сумму операции)
+    :return: url (ссылка на созданную кассу)
+    """
     return crystalpayAPI.Invoice.create(int(amount), InvoiceType.purchase, 5, description="TESTPayment").get('url')

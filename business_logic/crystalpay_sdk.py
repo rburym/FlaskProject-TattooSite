@@ -1,3 +1,8 @@
+"""
+Модуль для работы с API CrystalPay, использования кассы.
+"""
+
+
 import requests
 import json
 import hashlib

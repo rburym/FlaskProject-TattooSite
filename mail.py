@@ -1,10 +1,7 @@
-import smtplib, os
+import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
-EMAIL_FROM = os.getenv('EMAIL')
-EMAIL_PAS = os.getenv('EPASS')
-
+from config import EMAIL_FROM, EMAIL_PAS
 
 def get_msg(to: str, subject: str):
     msg = MIMEMultipart()

@@ -29,6 +29,8 @@
             </ul>
         </div>
     </header>
+<div class="container my-5">
+	<div class="columns__title">Интеграция с ChatGPT: Ваш персональный ассистент в мире татуировок!</div>
 <div class="hstack gap-3 justify-content-center mt-5" >
 		<div class="p-2">
 			<div class="card" style="width: 20rem;">
@@ -65,9 +67,15 @@
 		<div class="hstack gap-3 justify-content-center mt-5">
 			<div class="col-sm-4">
 				<input type="text" class="form-control" name="inputrequest">
+				<div class="response-box mt-3 p-3" style="border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+					<p class="fst-italic">Ответ:</p>
+					<p>{{ answer }}</p>
+			    </div>
 			</div>
 			<button type="submit" class="btn btn-primary">Отправить свой запрос</button>
 		</div>
+	</form>
+
 <footer class="footer">
 	<div class='container'>
 		<div class="footer__text">Tattoo Design 2024</div>
