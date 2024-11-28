@@ -36,7 +36,7 @@ pip install -r requirements.txt
 python main.py
 ```
 ## Лицензия
-Этот проект лицензируется по лицензии CCPL, см. файл [LICENSE.md](https://github.com/Ryize/StarPower/blob/main/LICENSE)
+Этот проект лицензируется по лицензии CCPL, см. файл LICENSE.md
 для получения дополнительной информации.
 
 ## Над проектом работали
