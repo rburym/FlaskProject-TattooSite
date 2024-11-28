@@ -87,7 +87,9 @@ def register():
         login = request.form.get('login')
         password = request.form.get('password')
         if 4 < len(email) < 32 and 4 < len(login) < 32 and 4 < len(password) < 32:
-            print('Введен корректный пароль.')
+            if login.lower() == 'admin':
+                flash({'title': "Ошибка", 'message': "Такой логин не допустим"}, 'error')
+                return render_template('Tattooreg.html')
             user = User(email=email, login=login, password=password)
             db.session.add(user)
             url = ''
@@ -125,6 +127,8 @@ def login():
     if request.method == 'POST':
         login = request.form.get('login')
         password = request.form.get('password')
+        if login == "admin":
+            abort(403)
         user = User.query.filter_by(login=login, password=password).first()  # .all()
         if user and user.is_confirm:
             login_user(user, remember = True)
