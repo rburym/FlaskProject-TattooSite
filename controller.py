@@ -1,8 +1,10 @@
 """
 Модуль Controller для сайта на Flask.
 
-Этот модуль содержит представления, которые обрабатывают запросы от пользователя и возвращают соответствующие ответы.
-Он взаимодействует с моделями для получения данных и передает эти данные в шаблоны для отображения пользователям.
+Этот модуль содержит представления, которые обрабатывают запросы от
+ пользователя и возвращают соответствующие ответы.
+Он взаимодействует с моделями для получения данных и передает эти данные
+в шаблоны для отображения пользователям.
 Каждое представление ассоциировано с одним или несколькими URL-адресами.
 
 Функции:
@@ -34,7 +36,7 @@ from app import app, db
 from business_logic.chat import chatrequest
 from business_logic.billing import payment
 from models import User, EmailConfirm
-from  mail import send_email
+from mail import send_email
 from error import *
 
 
@@ -79,31 +81,36 @@ def register():
     email_confirm, в случае подтверждения регистрации сохраняет пользователя.
     Иначе выдает ошибку error500.html.
 
-    :return: render_template('Tattooreg.html') в случае GET запроса или ошибки регистрации,
-             redirect(url_for('index')) в случае успешной регистрации.
+    :return: render_template('Tattooreg.html') в случае GET
+    запроса или ошибки регистрации, redirect(url_for('index')) в случае
+    успешной регистрации.
     """
-    if request.method == 'POST':
-        email = request.form.get('email')
-        login = request.form.get('login')
-        password = request.form.get('password')
-        if 4 < len(email) < 32 and 4 < len(login) < 32 and 4 < len(password) < 32:
-            if login.lower() == 'admin':
-                flash({'title': "Ошибка", 'message': "Такой логин не допустим"}, 'error')
-                return render_template('Tattooreg.html')
-            user = User(email=email, login=login, password=password)
-            db.session.add(user)
-            url = ''
-            for i in range(32):
-                url += random.choice(string.ascii_letters)
-            email_confirm = EmailConfirm(login=login, url=url)
-            db.session.add(email_confirm)
-            db.session.commit()
-            send_email(
-                f'Приветствуем! Спасибо за регистрацию! Подтвердите свою почту, кликнув на ссылку: http://127.0.0.1:5000{url_for('email_confirm', url=url)}',
-                email,
-                'Подтверждение регистрации TattooSite')
-            return redirect(url_for('index'))
-    return render_template('Tattooreg.html')
+    if request.method == 'GET':
+        return render_template('Tattooreg.html')
+    email = request.form.get('email')
+    login = request.form.get('login')
+    password = request.form.get('password')
+    if not (4 < len(email) < 32 and 4 < len(login) < 32 and 4 < len(password) < 32):
+        return render_template('Tattooreg.html')
+    if login.lower() == 'admin':
+        flash({'title': "Ошибка", 'message': "Такой логин не "
+         "допустим"}, 'error')
+        return render_template('Tattooreg.html')
+    user = User(email=email, login=login, password=password)
+    db.session.add(user)
+    url = ''
+    for i in range(32):
+        url += random.choice(string.ascii_letters)
+    email_confirm = EmailConfirm(login=login, url=url)
+    db.session.add(email_confirm)
+    db.session.commit()
+    send_email(
+        f'Приветствуем! Спасибо за регистрацию! Подтвердите'
+        f' свою почту, кликнув на ссылку: '
+        f'http://127.0.0.1:5000{
+        url_for('email_confirm', url=url)}',
+        email,'Подтверждение регистрации TattooSite')
+    return redirect(url_for('index'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -124,19 +131,20 @@ def login():
              redirect(url_for('personal_cab')) при успешной авторизации,
              return redirect(url_for('register')) в остальных случаях.
     """
-    if request.method == 'POST':
-        login = request.form.get('login')
-        password = request.form.get('password')
-        if login == "admin":
-            abort(403)
-        user = User.query.filter_by(login=login, password=password).first()  # .all()
-        if user and user.is_confirm:
-            login_user(user, remember = True)
-            flash({'title': "Авторизация", 'message': "Успешная авторизация"}, 'success')
-            return redirect(url_for('personal_cab'))
-        else:
-            return redirect(url_for('register'))
-    return render_template('TattooLogin.html')
+    if request.method == 'GET':
+        return render_template('TattooLogin.html')
+    login = request.form.get('login')
+    password = request.form.get('password')
+    if login == "admin":
+        abort(403)
+    user = User.query.filter_by(login=login, password=password).first()
+    if user and user.is_confirm:
+        login_user(user, remember=True)
+        flash({'title': "Авторизация", 'message':
+            "Успешная авторизация"}, 'success')
+        return redirect(url_for('personal_cab'))
+    else:
+        return redirect(url_for('register'))
 
 
 @app.route('/about')
@@ -184,7 +192,8 @@ def chatpage():
     получает ответ от сервиса и помещает его в форму answer на странице.
 
     :return: render_template('chatpage.html') в случае GET запроса,
-             render_template('chatpage.html', answer=answer) при успешной авторизации,
+             render_template('chatpage.html', answer=answer)
+    при успешной авторизации,
     """
     if request.method == 'POST':
         inprequest = request.form.get('inputrequest')
@@ -209,15 +218,16 @@ def tattoopay():
     :return: render_template('TattooPay.html') в случае GET запроса,
              redirect(new_url) в случае ввода правильной суммы.
     """
-    if request.method == 'POST':
-        amount = request.form.get('amount')
-        if amount and amount.isdigit():
-            new_url = payment(amount)
-            return redirect(new_url)
-        else:
-            flash({'title': "Ошибка", 'message': "Введено нечисловое значение!"}, 'error')
-            return render_template('TattooPay.html')
-    return render_template('TattooPay.html')
+    if request.method == 'GET':
+        return render_template('TattooPay.html')
+    amount = request.form.get('amount')
+    if amount and amount.isdigit():
+        new_url = payment(amount)
+        return redirect(new_url)
+    else:
+        flash({'title': "Ошибка", 'message':
+            "Введено нечисловое значение!"}, 'error')
+        return render_template('TattooPay.html')
 
 
 @app.route('/perscab')

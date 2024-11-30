@@ -3,15 +3,15 @@
 """
 
 from business_logic.crystalpay_sdk import *
-from config import BALogin, BASecret, BSalt
+from config import BSALT, BALOGIN, BASECRET
 
-crystalpayAPI = CrystalPAY(BALogin, BASecret, BSalt)
+crystalpayAPI = CrystalPAY(BALOGIN, BASECRET, BSALT)
 
 
-def payment(amount: int):
+def payment(amount: int) -> str:
     """
     Функция создает ссылку на оплату
     :param amount: int (сумму операции)
-    :return: url (ссылка на созданную кассу)
+    :return: str (ссылка на созданную кассу)
     """
     return crystalpayAPI.Invoice.create(int(amount), InvoiceType.purchase, 5, description="TESTPayment").get('url')
