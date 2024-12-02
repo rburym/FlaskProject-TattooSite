@@ -5,7 +5,7 @@
 from business_logic.crystalpay_sdk import *
 from config import BSALT, BALOGIN, BASECRET
 
-crystalpayAPI = CrystalPAY(BALOGIN, BASECRET, BSALT)
+crystalpayAPI = CrystalPay(BALOGIN, BASECRET, BSALT)
 
 
 def payment(amount: int) -> str:
@@ -14,4 +14,4 @@ def payment(amount: int) -> str:
     :param amount: int (сумму операции)
     :return: str (ссылка на созданную кассу)
     """
-    return crystalpayAPI.Invoice.create(int(amount), InvoiceType.purchase, 5, description="TESTPayment").get('url')
+    return crystalpayAPI.Invoice.create(int(amount), InvoiceType.PURCHASE, 5, description="TESTPayment").get('url')

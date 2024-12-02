@@ -93,8 +93,8 @@ def register():
     if not (4 < len(email) < 32 and 4 < len(login) < 32 and 4 < len(password) < 32):
         return render_template('Tattooreg.html')
     if login.lower() == 'admin':
-        flash({'title': "Ошибка", 'message': "Такой логин не "
-         "допустим"}, 'error')
+        flash({'title': "Ошибка", 'message': "Такой логин не допустим"},
+              'error')
         return render_template('Tattooreg.html')
     user = User(email=email, login=login, password=password)
     db.session.add(user)
@@ -105,11 +105,8 @@ def register():
     db.session.add(email_confirm)
     db.session.commit()
     send_email(
-        f'Приветствуем! Спасибо за регистрацию! Подтвердите'
-        f' свою почту, кликнув на ссылку: '
-        f'http://127.0.0.1:5000{
-        url_for('email_confirm', url=url)}',
-        email,'Подтверждение регистрации TattooSite')
+        f'Приветствуем! Спасибо за регистрацию! Подтвердите свою почту, '
+        f'кликнув на ссылку: http://127.0.0.1:5000{url_for('email_confirm', url=url)}', email,'Подтверждение регистрации TattooSite')
     return redirect(url_for('index'))
 
 
